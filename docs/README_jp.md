@@ -283,11 +283,17 @@ npm install -g @mermaid-js/mermaid-cli
 
 ## ライセンス
 
-MIT License - 詳細は[LICENSE](../LICENSE)を参照
+MIT License - 詳細は[LICENSE](https://github.com/gorosun/gospelo-md2pdf/blob/main/LICENSE)を参照
 
 ## 作者
 
 NoStudio LLC (goro-hayakawa@no-studio.net)
+
+## ドキュメント
+
+- [English README](https://github.com/gorosun/gospelo-md2pdf/blob/main/README.md)
+- [CSSテンプレートガイド](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/CSS_TEMPLATE_GUIDE.md)
+- [変更履歴](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/CHANGELOG.md)
 
 ## リンク
 

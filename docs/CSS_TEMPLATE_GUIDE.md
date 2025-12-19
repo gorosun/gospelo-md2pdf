@@ -621,6 +621,6 @@ h1, h2, h3 {
 
 ## 関連ドキュメント
 
-- [README.md](../README.md) - 基本的な使用方法
-- [README_jp.md](README_jp.md) - 日本語ドキュメント
-- [CHANGELOG.md](CHANGELOG.md) - 変更履歴
+- [README.md](https://github.com/gorosun/gospelo-md2pdf/blob/main/README.md) - 基本的な使用方法
+- [README_jp.md](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/README_jp.md) - 日本語ドキュメント
+- [CHANGELOG.md](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/CHANGELOG.md) - 変更履歴

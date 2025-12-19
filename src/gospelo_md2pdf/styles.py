@@ -1,0 +1,372 @@
+"""Default CSS styles for PDF generation."""
+
+from pathlib import Path
+
+DEFAULT_CSS = """
+@page {
+    size: A4;
+    margin: 20mm;
+
+    @top-right {
+        content: counter(page);
+        font-size: 9pt;
+        color: #666;
+    }
+}
+
+@page :first {
+    @top-right {
+        content: none;
+    }
+}
+
+/* Base Typography */
+body {
+    font-family: 'Noto Sans CJK JP', 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    font-size: 10pt;
+    line-height: 1.7;
+    color: #333;
+    text-align: justify;
+}
+
+/* Headings */
+h1 {
+    color: #1a365d;
+    font-size: 18pt;
+    text-align: center;
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #2c5282;
+}
+
+h1.subtitle {
+    font-size: 14pt;
+    border-bottom: none;
+    margin-top: 0;
+    padding-bottom: 0;
+}
+
+h2 {
+    color: #2c5282;
+    font-size: 14pt;
+    border-bottom: 2px solid #2c5282;
+    padding-bottom: 5px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+}
+
+h3 {
+    color: #2b6cb0;
+    font-size: 12pt;
+    margin-top: 18px;
+    margin-bottom: 8px;
+}
+
+h4 {
+    color: #3182ce;
+    font-size: 11pt;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+/* Paragraphs */
+p {
+    margin-bottom: 10px;
+    orphans: 3;
+    widows: 3;
+}
+
+/* Lists */
+ul, ol {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+li > ul, li > ol {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 9pt;
+    page-break-inside: avoid;
+}
+
+thead {
+    display: table-header-group;
+}
+
+th {
+    background-color: #2c5282;
+    color: white;
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #2c5282;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #cbd5e0;
+    vertical-align: top;
+}
+
+tr:nth-child(even) {
+    background-color: #f7fafc;
+}
+
+/* First column styling (for comparison tables) */
+td:first-child {
+    background-color: #edf2f7;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Code blocks */
+code {
+    font-family: 'Noto Sans Mono CJK JP', 'Source Code Pro', monospace;
+    background-color: #f1f5f9;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 9pt;
+}
+
+pre {
+    background-color: #1e293b;
+    color: #e2e8f0;
+    padding: 12px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-size: 9pt;
+    line-height: 1.5;
+    margin: 12px 0;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+/* Blockquotes */
+blockquote {
+    border-left: 4px solid #3182ce;
+    margin: 15px 0;
+    padding: 10px 15px;
+    background-color: #ebf8ff;
+    color: #2c5282;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+/* Links */
+a {
+    color: #3182ce;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Horizontal rule */
+hr {
+    border: none;
+    border-top: 1px solid #cbd5e0;
+    margin: 20px 0;
+}
+
+/* Strong and emphasis */
+strong {
+    color: #1a202c;
+}
+
+em {
+    font-style: italic;
+}
+
+/* Special classes */
+.date {
+    text-align: center;
+    color: #666;
+    font-size: 9pt;
+    margin-bottom: 25px;
+}
+
+.summary {
+    background-color: #f0fff4;
+    border: 1px solid #9ae6b4;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.warning {
+    background-color: #fffaf0;
+    border: 1px solid #fbd38d;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.info {
+    background-color: #ebf8ff;
+    border: 1px solid #90cdf4;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.disclaimer {
+    font-size: 8pt;
+    color: #666;
+    background-color: #f7fafc;
+    padding: 12px;
+    margin-top: 25px;
+    border-radius: 5px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Reference list styling */
+.reference {
+    font-size: 9pt;
+    margin-bottom: 3px;
+}
+
+.reference-url {
+    color: #3182ce;
+    font-size: 8pt;
+    word-break: break-all;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Page break utilities */
+.page-break {
+    page-break-before: always;
+}
+
+.no-break {
+    page-break-inside: avoid;
+}
+
+/* Pros/Cons styling */
+.pros {
+    background-color: #f0fff4;
+    border-left: 4px solid #48bb78;
+    padding: 10px 15px;
+    margin: 10px 0;
+}
+
+.cons {
+    background-color: #fff5f5;
+    border-left: 4px solid #fc8181;
+    padding: 10px 15px;
+    margin: 10px 0;
+}
+
+/* Table of Contents */
+.toc {
+    background-color: #f7fafc;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.toc ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.toc li {
+    margin-bottom: 5px;
+}
+
+.toc a {
+    color: #2c5282;
+}
+
+/* Image styling */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px auto;
+}
+
+figure {
+    margin: 15px 0;
+    text-align: center;
+}
+
+figcaption {
+    font-size: 9pt;
+    color: #666;
+    margin-top: 8px;
+}
+
+/* Mermaid diagram styling */
+.mermaid-diagram {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.mermaid-diagram img {
+    max-width: 100%;
+    height: auto;
+}
+"""
+
+
+def get_default_css() -> str:
+    """
+    Get the default CSS content.
+
+    First tries to load from the bundled CSS file,
+    falls back to the embedded DEFAULT_CSS constant.
+
+    Returns:
+        CSS content string
+    """
+    # Try to load from bundled file
+    styles_dir = Path(__file__).parent / "styles"
+    default_css_path = styles_dir / "default.css"
+
+    if default_css_path.exists():
+        return default_css_path.read_text(encoding="utf-8")
+
+    return DEFAULT_CSS
+
+
+def load_css_file(css_path: str | Path) -> str:
+    """
+    Load CSS content from a file.
+
+    Args:
+        css_path: Path to the CSS file
+
+    Returns:
+        CSS content string
+
+    Raises:
+        FileNotFoundError: If the CSS file does not exist
+    """
+    path = Path(css_path)
+    if not path.exists():
+        raise FileNotFoundError(f"CSS file not found: {css_path}")
+
+    return path.read_text(encoding="utf-8")

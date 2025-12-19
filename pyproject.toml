@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gospelo-md2pdf"
+version = "1.0.0"
+description = "Convert Markdown to PDF with Japanese support and MermaidJS diagrams"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "NoStudio LLC", email = "goro-hayakawa@no-studio.net"}
+]
+keywords = [
+    "markdown",
+    "pdf",
+    "mermaid",
+    "japanese",
+    "documentation",
+    "converter",
+    "weasyprint"
+]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Documentation",
+    "Topic :: Text Processing :: Markup :: Markdown",
+]
+dependencies = [
+    "weasyprint>=60.0",
+    "markdown>=3.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+gospelo-md2pdf = "gospelo_md2pdf.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/gorosun/gospelo-md2pdf"
+Documentation = "https://github.com/gorosun/gospelo-md2pdf#readme"
+Repository = "https://github.com/gorosun/gospelo-md2pdf.git"
+Issues = "https://github.com/gorosun/gospelo-md2pdf/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+gospelo_md2pdf = ["styles/*.css"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -111,3 +111,135 @@ class TestRenderMermaidToPng:
             # Should return False (rendering failed)
             # Note: This depends on mermaid-cli behavior
             assert isinstance(result, bool)
+
+
+class TestMermaidIntegration:
+    """Integration tests for Mermaid diagram embedding in PDF."""
+
+    @pytest.mark.skipif(
+        not check_mermaid_cli(),
+        reason="mermaid-cli not installed"
+    )
+    def test_markdown_with_mermaid_to_html(self):
+        """Test that Mermaid blocks in Markdown are converted to images in HTML."""
+        from gospelo_md2pdf.converter import convert_md_to_html
+
+        markdown_content = """# Test Document
+
+## Flowchart
+
+```mermaid
+graph TD
+    A[Start] --> B[Process]
+    B --> C[End]
+```
+
+Some text after diagram.
+"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            md_file = Path(tmpdir) / "test.md"
+            md_file.write_text(markdown_content)
+
+            output_dir = Path(tmpdir) / "output"
+            html_content, html_path = convert_md_to_html(md_file, output_dir)
+
+            # Check that Mermaid block was converted to image
+            assert '<div class="mermaid-diagram">' in html_content
+            assert "<img" in html_content
+            assert ".png" in html_content
+            # Original code block should not remain
+            assert 'class="language-mermaid"' not in html_content
+
+    @pytest.mark.skipif(
+        not check_mermaid_cli(),
+        reason="mermaid-cli not installed"
+    )
+    def test_markdown_with_mermaid_to_pdf(self):
+        """Test that PDF is generated with embedded Mermaid diagrams."""
+        from gospelo_md2pdf.converter import convert_md_to_pdf
+
+        markdown_content = """# Test Document
+
+```mermaid
+graph LR
+    A --> B
+    B --> C
+```
+"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            md_file = Path(tmpdir) / "test.md"
+            md_file.write_text(markdown_content)
+
+            output_dir = Path(tmpdir) / "output"
+            pdf_path = convert_md_to_pdf(md_file, output_dir=output_dir)
+
+            assert pdf_path.exists()
+            assert pdf_path.stat().st_size > 0
+
+            # Check that PNG files were generated in mermaid directory
+            mermaid_dir = output_dir / "mermaid"
+            if mermaid_dir.exists():
+                png_files = list(mermaid_dir.glob("*.png"))
+                assert len(png_files) > 0
+
+    @pytest.mark.skipif(
+        not check_mermaid_cli(),
+        reason="mermaid-cli not installed"
+    )
+    def test_multiple_mermaid_diagrams(self):
+        """Test that multiple Mermaid diagrams are processed correctly."""
+        markdown_content = """# Multiple Diagrams
+
+## Diagram 1
+```mermaid
+graph TD
+    A --> B
+```
+
+## Diagram 2
+```mermaid
+sequenceDiagram
+    Alice->>Bob: Hello
+    Bob->>Alice: Hi
+```
+"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            md_file = Path(tmpdir) / "test.md"
+            md_file.write_text(markdown_content)
+
+            output_dir = Path(tmpdir) / "output"
+
+            from gospelo_md2pdf.converter import convert_md_to_html
+            html_content, _ = convert_md_to_html(md_file, output_dir)
+
+            # Count mermaid-diagram divs
+            diagram_count = html_content.count('<div class="mermaid-diagram">')
+            assert diagram_count == 2
+
+    @pytest.mark.skipif(
+        not check_mermaid_cli(),
+        reason="mermaid-cli not installed"
+    )
+    def test_mermaid_with_japanese_text(self):
+        """Test Mermaid diagram with Japanese text."""
+        markdown_content = """# 日本語テスト
+
+```mermaid
+graph TD
+    A[開始] --> B[処理中]
+    B --> C{判定}
+    C -->|成功| D[完了]
+    C -->|失敗| E[エラー]
+```
+"""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            md_file = Path(tmpdir) / "test.md"
+            md_file.write_text(markdown_content, encoding="utf-8")
+
+            output_dir = Path(tmpdir) / "output"
+
+            from gospelo_md2pdf.converter import convert_md_to_pdf
+            pdf_path = convert_md_to_pdf(md_file, output_dir=output_dir)
+
+            assert pdf_path.exists()
+            assert pdf_path.stat().st_size > 0

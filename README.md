@@ -283,6 +283,34 @@ npm install -g @mermaid-js/mermaid-cli
 - System: pango, glib, gdk-pixbuf (see Installation)
 - Optional: @mermaid-js/mermaid-cli (for Mermaid diagrams)
 
+## Dependencies and Acknowledgements
+
+This project uses the following open-source libraries. Full license texts are included in the [LICENSE](https://github.com/gorosun/gospelo-md2pdf/blob/main/LICENSE) file.
+
+| Library | License | Description |
+|---------|---------|-------------|
+| [WeasyPrint](https://weasyprint.org/) | BSD 3-Clause | HTML/CSS to PDF converter |
+| [Python-Markdown](https://python-markdown.github.io/) | BSD 3-Clause | Markdown to HTML converter |
+| [Mermaid CLI](https://github.com/mermaid-js/mermaid-cli) | MIT | Diagram rendering (optional) |
+
+### System Libraries (Dynamically Linked)
+
+| Library | License | Description |
+|---------|---------|-------------|
+| [Pango](https://pango.gnome.org/) | LGPL 2.0+ | Text rendering |
+| [GLib](https://docs.gtk.org/glib/) | LGPL 2.1+ | Core utilities |
+| [GDK-Pixbuf](https://docs.gtk.org/gdk-pixbuf/) | LGPL 2.1+ | Image loading |
+
+Note: System libraries are dynamically linked and not bundled with this package.
+
+### Fonts (Recommended)
+
+| Font | License | Description |
+|------|---------|-------------|
+| [Noto Sans CJK JP](https://fonts.google.com/noto/specimen/Noto+Sans+JP) | OFL 1.1 | Japanese font by Google |
+
+Note: Fonts are not bundled with this package. Users install them separately.
+
 ## License
 
 MIT License - see [LICENSE](https://github.com/gorosun/gospelo-md2pdf/blob/main/LICENSE) for details.

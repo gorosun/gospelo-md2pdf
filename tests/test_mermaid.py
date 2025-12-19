@@ -243,3 +243,81 @@ graph TD
 
             assert pdf_path.exists()
             assert pdf_path.stat().st_size > 0
+
+    @pytest.mark.skipif(
+        not check_mermaid_cli(),
+        reason="mermaid-cli not installed"
+    )
+    def test_mermaid_with_subgraph_quotes(self):
+        """Test Mermaid diagram with subgraph labels containing quotes."""
+        markdown_content = '''# Subgraph Test
+
+```mermaid
+graph TD
+    subgraph "Frontend Layer"
+        A[Component] --> B[Service]
+    end
+    subgraph "Backend Layer"
+        C[API] --> D[Database]
+    end
+    B --> C
+```
+'''
+        with tempfile.TemporaryDirectory() as tmpdir:
+            md_file = Path(tmpdir) / "test.md"
+            md_file.write_text(markdown_content, encoding="utf-8")
+
+            output_dir = Path(tmpdir) / "output"
+
+            from gospelo_md2pdf.converter import convert_md_to_html
+            html_content, _ = convert_md_to_html(md_file, output_dir)
+
+            # Check that Mermaid block was converted to image
+            assert '<div class="mermaid-diagram">' in html_content
+            assert "<img" in html_content
+            # Original code block should not remain
+            assert 'class="language-mermaid"' not in html_content
+
+
+class TestHtmlEntityUnescaping:
+    """Tests for HTML entity unescaping in Mermaid code."""
+
+    @pytest.mark.skipif(
+        not check_mermaid_cli(),
+        reason="mermaid-cli not installed"
+    )
+    def test_unescape_html_entities(self):
+        """Test that HTML entities are properly unescaped before rendering."""
+        # Simulate HTML with escaped entities (as produced by Markdown conversion)
+        html = '<pre><code class="language-mermaid">graph TD\n    subgraph &quot;Test Layer&quot;\n        A[Node] --&gt; B[Other]\n    end</code></pre>'
+        with tempfile.TemporaryDirectory() as tmpdir:
+            result = process_mermaid_blocks(html, Path(tmpdir), "test")
+
+        # Should successfully render (not remain as code block)
+        assert '<div class="mermaid-diagram">' in result
+        assert "<img" in result
+
+    @pytest.mark.skipif(
+        not check_mermaid_cli(),
+        reason="mermaid-cli not installed"
+    )
+    def test_unescape_single_quotes(self):
+        """Test that single quote entities are properly unescaped."""
+        # Test &#39; (numeric entity for single quote)
+        html = "<pre><code class=\"language-mermaid\">graph TD\n    A[It&#39;s working] --> B[End]</code></pre>"
+        with tempfile.TemporaryDirectory() as tmpdir:
+            result = process_mermaid_blocks(html, Path(tmpdir), "test")
+
+        assert '<div class="mermaid-diagram">' in result
+
+    @pytest.mark.skipif(
+        not check_mermaid_cli(),
+        reason="mermaid-cli not installed"
+    )
+    def test_unescape_ampersand(self):
+        """Test that ampersand entities are properly unescaped."""
+        html = '<pre><code class="language-mermaid">graph TD\n    A[A &amp; B] --> C[End]</code></pre>'
+        with tempfile.TemporaryDirectory() as tmpdir:
+            result = process_mermaid_blocks(html, Path(tmpdir), "test")
+
+        assert '<div class="mermaid-diagram">' in result

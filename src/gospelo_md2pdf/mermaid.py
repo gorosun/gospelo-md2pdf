@@ -103,7 +103,12 @@ def process_mermaid_blocks(
         mermaid_code = match.group(1)
         # Unescape HTML entities
         mermaid_code = (
-            mermaid_code.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")
+            mermaid_code.replace("&lt;", "<")
+            .replace("&gt;", ">")
+            .replace("&quot;", '"')
+            .replace("&#39;", "'")
+            .replace("&apos;", "'")
+            .replace("&amp;", "&")  # &amp; must be last to avoid double-unescaping
         )
 
         # Generate unique filename

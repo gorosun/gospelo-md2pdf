@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gospelo-md2pdf"
-version = "1.0.0"
+version = "1.0.1"
 description = "Convert Markdown to PDF with Japanese support and MermaidJS diagrams"
 readme = "README.md"
 license = "MIT"

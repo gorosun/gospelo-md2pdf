@@ -7,7 +7,7 @@ name = "gospelo-md2pdf"
 version = "1.0.0"
 description = "Convert Markdown to PDF with Japanese support and MermaidJS diagrams"
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
     {name = "NoStudio LLC", email = "goro-hayakawa@no-studio.net"}
 ]

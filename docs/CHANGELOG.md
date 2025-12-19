@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-12-19
+
+### Fixed
+
+- Fixed HTML entity unescaping in Mermaid code blocks
+  - Added support for `&quot;` (double quote) unescaping
+  - Added support for `&#39;` and `&apos;` (single quote) unescaping
+  - Fixed `&amp;` processing order to prevent double-unescaping
+  - Resolves parse errors with `subgraph "Label"` syntax
+
+### Added
+
+- New test cases for HTML entity unescaping (4 tests)
+  - `test_mermaid_with_subgraph_quotes`
+  - `test_unescape_html_entities`
+  - `test_unescape_single_quotes`
+  - `test_unescape_ampersand`
+
 ## [1.0.0] - 2025-01-19
 
 ### Added

@@ -1,17 +1,17 @@
 # Test Report - gospelo-md2pdf
 
-Generated: 2025-01-19
+Generated: 2025-12-19
 
 ## Summary
 
 | Metric | Value |
 |--------|-------|
-| Total Tests | 42 |
-| Passed | 42 |
+| Total Tests | 46 |
+| Passed | 46 |
 | Failed | 0 |
 | Skipped | 0 |
 | Coverage | 83% |
-| Test Duration | 10.72s |
+| Test Duration | 13.74s |
 
 ## Test Environment
 
@@ -64,7 +64,7 @@ Generated: 2025-01-19
 | `TestConvertMdToPdf::test_html_file_removed_when_requested` | PASSED |
 | `TestConvertMdToPdf::test_custom_output_file` | PASSED |
 
-### test_mermaid.py (13 tests)
+### test_mermaid.py (17 tests)
 
 | Test | Status |
 |------|--------|
@@ -81,6 +81,10 @@ Generated: 2025-01-19
 | `TestMermaidIntegration::test_markdown_with_mermaid_to_pdf` | PASSED |
 | `TestMermaidIntegration::test_multiple_mermaid_diagrams` | PASSED |
 | `TestMermaidIntegration::test_mermaid_with_japanese_text` | PASSED |
+| `TestMermaidIntegration::test_mermaid_with_subgraph_quotes` | PASSED |
+| `TestHtmlEntityUnescaping::test_unescape_html_entities` | PASSED |
+| `TestHtmlEntityUnescaping::test_unescape_single_quotes` | PASSED |
+| `TestHtmlEntityUnescaping::test_unescape_ampersand` | PASSED |
 
 ### test_styles.py (11 tests)
 
@@ -126,7 +130,7 @@ Missing lines: Error handling paths and edge cases
 
 ### `mermaid.py` (88% coverage)
 
-Missing lines: 59-61, 117, 122, 127 (error handling for Mermaid CLI failures)
+Missing lines: 59-61, 122, 127, 132 (error handling for Mermaid CLI failures)
 
 ### `styles.py` (92% coverage)
 
@@ -155,3 +159,10 @@ DYLD_LIBRARY_PATH=/opt/homebrew/lib python -m pytest -k "mermaid" -v
 2. **macOS library path**: On macOS, `DYLD_LIBRARY_PATH=/opt/homebrew/lib` is required for WeasyPrint to find system libraries.
 
 3. **Coverage target**: The current coverage of 83% is considered sufficient for a v1.0 release. Uncovered code is primarily error handling and entry point code.
+
+## Change History
+
+| Date | Version | Tests | Coverage | Notes |
+|------|---------|-------|----------|-------|
+| 2025-01-19 | 1.0.0 | 42 | 83% | Initial release |
+| 2025-12-19 | 1.0.1 | 46 | 83% | Added HTML entity unescaping tests |

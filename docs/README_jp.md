@@ -9,6 +9,7 @@
 - **カスタムCSS**: 独自のスタイルシートまたは内蔵のプロフェッショナルスタイルを使用可能
 - **Markdown拡張**: テーブル、コードブロック、目次、メタデータなどに対応
 - **特殊HTMLクラス**: サマリーボックス、警告、メリット/デメリット、改ページなど
+- **Agent Skills対応**: AIコーディングアシスタント（Claude Code、VS Code Copilot）に対応
 
 ## インストール
 
@@ -292,6 +293,7 @@ NoStudio LLC (goro-hayakawa@no-studio.net)
 ## ドキュメント
 
 - [English README](https://github.com/gorosun/gospelo-md2pdf/blob/main/README.md)
+- [Agent Skills クイックスタート](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/AGENT_SKILLS_jp.md)
 - [CSSテンプレートガイド](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/CSS_TEMPLATE_GUIDE.md)
 - [変更履歴](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/CHANGELOG.md)
 

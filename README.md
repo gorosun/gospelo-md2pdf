@@ -9,6 +9,7 @@ Convert Markdown to PDF with Japanese support and MermaidJS diagrams.
 - **Custom CSS**: Use your own stylesheets or the built-in professional style
 - **Markdown Extensions**: Tables, fenced code blocks, TOC, metadata, and more
 - **Special HTML Classes**: Summary boxes, warnings, pros/cons sections, page breaks
+- **Agent Skills**: Built-in support for AI coding assistants (Claude Code, VS Code Copilot)
 
 ## Installation
 
@@ -322,6 +323,7 @@ NoStudio LLC (goro-hayakawa@no-studio.net)
 ## Documentation
 
 - [日本語ドキュメント (Japanese)](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/README_jp.md)
+- [Agent Skills Quick Start](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/AGENT_SKILLS.md)
 - [CSS Template Guide](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/CSS_TEMPLATE_GUIDE.md)
 - [Changelog](https://github.com/gorosun/gospelo-md2pdf/blob/main/docs/CHANGELOG.md)
 

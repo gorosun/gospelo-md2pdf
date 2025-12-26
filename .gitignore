@@ -110,3 +110,7 @@ Thumbs.db
 mermaid/
 internal/
 .roo/
+
+# Temporary files
+tmp/
+docs/development/

@@ -68,8 +68,8 @@ gospelo-md2pdf report.md -o ./pdf
 # カスタムCSSを使用
 gospelo-md2pdf report.md --css custom-style.css
 
-# 中間HTMLファイルを削除
-gospelo-md2pdf report.md --no-html
+# 中間ファイルを保持してデバッグ
+gospelo-md2pdf report.md --debug
 ```
 
 ## 使用方法
@@ -84,7 +84,7 @@ gospelo-md2pdf <input.md> [output.pdf] [オプション]
 オプション:
   -o, --output-dir DIR  出力ディレクトリ（デフォルト: カレントディレクトリ）
   -c, --css FILE        カスタムCSSファイル
-  --no-html             中間HTMLファイルを削除
+  --debug               中間ファイル（HTML、mermaid）をtmp/ディレクトリに保持
   --lang LANG           HTML lang属性（デフォルト: ja）
   -q, --quiet           出力メッセージを抑制
   --verbose             詳細出力

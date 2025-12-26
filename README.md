@@ -68,8 +68,8 @@ gospelo-md2pdf report.md -o ./pdf
 # Use custom CSS
 gospelo-md2pdf report.md --css custom-style.css
 
-# Delete intermediate HTML file
-gospelo-md2pdf report.md --no-html
+# Keep intermediate files for debugging
+gospelo-md2pdf report.md --debug
 ```
 
 ## Usage
@@ -84,7 +84,7 @@ Arguments:
 Options:
   -o, --output-dir DIR  Output directory (default: current directory)
   -c, --css FILE        Custom CSS file
-  --no-html             Delete intermediate HTML file
+  --debug               Keep intermediate files (HTML, mermaid) in tmp/ directory
   --lang LANG           HTML lang attribute (default: ja)
   -q, --quiet           Suppress output messages
   --verbose             Print verbose output

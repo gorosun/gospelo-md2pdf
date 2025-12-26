@@ -27,7 +27,8 @@ export DYLD_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_LIBRARY_PATH
 ## Instructions
 
 1. 変換対象のMarkdownファイルを確認する
-2. gospelo-md2pdfコマンドを実行する（macOSでライブラリエラーが出る場合は環境変数を設定）
+2. ユーザーが出力先を指定した場合は `-o` オプションで出力ディレクトリを指定する
+3. gospelo-md2pdfコマンドを実行する（macOSでライブラリエラーが出る場合は環境変数を設定）
 
 ### Basic Usage
 

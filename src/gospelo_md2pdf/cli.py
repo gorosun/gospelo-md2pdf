@@ -24,7 +24,7 @@ Examples:
     gospelo-md2pdf report.md output.pdf
     gospelo-md2pdf report.md -o ./pdf
     gospelo-md2pdf report.md --css custom-style.css
-    gospelo-md2pdf report.md --no-html --quiet
+    gospelo-md2pdf report.md --debug
 
 Environment Variables:
     MD2PDF_OUTPUT_DIR    Output directory (lower priority than --output-dir)
@@ -49,9 +49,9 @@ Japanese Font:
     )
     parser.add_argument("-c", "--css", help="Custom CSS file")
     parser.add_argument(
-        "--no-html",
+        "--debug",
         action="store_true",
-        help="Delete intermediate HTML file after PDF generation",
+        help="Keep intermediate files (HTML, mermaid) in tmp/ directory",
     )
     parser.add_argument(
         "--lang",
@@ -82,7 +82,8 @@ Japanese Font:
     verbose = args.verbose and not args.quiet
 
     try:
-        keep_html = not args.no_html
+        # Default: delete intermediate files; --debug keeps them
+        keep_html = args.debug
         output_path = convert_md_to_pdf(
             input_file=args.input,
             output_file=args.output,

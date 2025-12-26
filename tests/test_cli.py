@@ -71,16 +71,34 @@ class TestCLI:
             captured = capsys.readouterr()
             assert captured.out == ""
 
-    def test_no_html_option(self):
-        """Test --no-html removes intermediate HTML."""
+    def test_default_removes_intermediate_files(self):
+        """Test default behavior removes intermediate files (tmp/ directory)."""
         with tempfile.TemporaryDirectory() as tmpdir:
             md_file = Path(tmpdir) / "test.md"
             md_file.write_text("# Hello World")
 
             with patch.object(
-                sys, "argv", ["gospelo-md2pdf", str(md_file), "-o", tmpdir, "--no-html"]
+                sys, "argv", ["gospelo-md2pdf", str(md_file), "-o", tmpdir]
             ):
                 main()
 
-            html_file = Path(tmpdir) / "test.html"
-            assert not html_file.exists()
+            # tmp/ directory should not exist (cleaned up by default)
+            tmp_dir = Path(tmpdir) / "tmp"
+            assert not tmp_dir.exists()
+
+    def test_debug_option_keeps_intermediate_files(self):
+        """Test --debug keeps intermediate files in tmp/ directory."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            md_file = Path(tmpdir) / "test.md"
+            md_file.write_text("# Hello World")
+
+            with patch.object(
+                sys, "argv", ["gospelo-md2pdf", str(md_file), "-o", tmpdir, "--debug"]
+            ):
+                main()
+
+            # tmp/ directory should exist with HTML file
+            tmp_dir = Path(tmpdir) / "tmp"
+            assert tmp_dir.exists()
+            html_file = tmp_dir / "test.html"
+            assert html_file.exists()

@@ -112,7 +112,7 @@ class TestConvertMdToPdf:
             assert pdf_path.stat().st_size > 0
 
     def test_html_file_kept_by_default(self):
-        """Test that HTML file is kept by default."""
+        """Test that HTML file is kept in tmp/ by default."""
         with tempfile.TemporaryDirectory() as tmpdir:
             md_file = Path(tmpdir) / "test.md"
             md_file.write_text("# Test")
@@ -120,11 +120,12 @@ class TestConvertMdToPdf:
             output_dir = Path(tmpdir) / "output"
             convert_md_to_pdf(md_file, output_dir=output_dir, keep_html=True)
 
-            html_path = output_dir / "test.html"
+            # HTML file should be in tmp/ subdirectory
+            html_path = output_dir / "tmp" / "test.html"
             assert html_path.exists()
 
     def test_html_file_removed_when_requested(self):
-        """Test that HTML file is removed when keep_html=False."""
+        """Test that tmp/ directory is removed when keep_html=False."""
         with tempfile.TemporaryDirectory() as tmpdir:
             md_file = Path(tmpdir) / "test.md"
             md_file.write_text("# Test")
@@ -132,8 +133,9 @@ class TestConvertMdToPdf:
             output_dir = Path(tmpdir) / "output"
             convert_md_to_pdf(md_file, output_dir=output_dir, keep_html=False)
 
-            html_path = output_dir / "test.html"
-            assert not html_path.exists()
+            # Entire tmp/ directory should be removed
+            tmp_dir = output_dir / "tmp"
+            assert not tmp_dir.exists()
 
     def test_custom_output_file(self):
         """Test custom output file name."""

@@ -1,6 +1,7 @@
 """Markdown to PDF conversion logic."""
 
 import os
+import shutil
 from pathlib import Path
 
 import markdown
@@ -8,6 +9,21 @@ from weasyprint import HTML, CSS
 
 from .mermaid import process_mermaid_blocks
 from .styles import get_default_css, load_css_file
+
+
+def get_temp_dir(output_dir: Path) -> Path:
+    """
+    Get temporary directory for intermediate files (HTML, mermaid).
+
+    Args:
+        output_dir: The output directory for PDF
+
+    Returns:
+        Path to temporary directory (output_dir/tmp)
+    """
+    temp_dir = output_dir / "tmp"
+    temp_dir.mkdir(parents=True, exist_ok=True)
+    return temp_dir
 
 
 def get_output_dir(output_dir: str | Path | None = None) -> Path:
@@ -205,6 +221,9 @@ def convert_md_to_pdf(
     resolved_output_dir = get_output_dir(output_dir)
     resolved_output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Get temporary directory for intermediate files
+    temp_dir = get_temp_dir(resolved_output_dir)
+
     # Determine output PDF filename
     if output_file is None:
         pdf_path = resolved_output_dir / (input_path.stem + ".pdf")
@@ -216,22 +235,24 @@ def convert_md_to_pdf(
             pdf_path = output_path_obj
 
     # Step 1: Convert Markdown to HTML (with Mermaid processing)
+    # Use temp_dir for intermediate HTML and mermaid files
     html_content, html_path = convert_md_to_html(
-        input_file, resolved_output_dir, css_file, lang, verbose
+        input_file, temp_dir, css_file, lang, verbose
     )
 
     # Step 2: Convert HTML to PDF
     convert_html_to_pdf(html_content, pdf_path, css_file, verbose)
 
-    # Clean up HTML if not keeping
-    if not keep_html and html_path.exists():
-        html_path.unlink()
+    # Clean up intermediate files
+    if not keep_html:
+        # Remove entire temp directory
+        if temp_dir.exists():
+            shutil.rmtree(temp_dir)
+            if verbose:
+                print(f"Removed intermediate files: {temp_dir}")
+    else:
+        # Keep HTML but still note location
         if verbose:
-            print(f"Removed intermediate HTML: {html_path}")
-
-        # Also clean up mermaid directory if empty
-        mermaid_dir = resolved_output_dir / "mermaid"
-        if mermaid_dir.exists() and not any(mermaid_dir.iterdir()):
-            mermaid_dir.rmdir()
+            print(f"Intermediate files saved in: {temp_dir}")
 
     return pdf_path

@@ -114,3 +114,4 @@ internal/
 # Temporary files
 tmp/
 docs/development/
+.claude/skills/update-log

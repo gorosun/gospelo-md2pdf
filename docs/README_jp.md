@@ -9,7 +9,7 @@
 - **カスタムCSS**: 独自のスタイルシートまたは内蔵のプロフェッショナルスタイルを使用可能
 - **Markdown拡張**: テーブル、コードブロック、目次、メタデータなどに対応
 - **特殊HTMLクラス**: サマリーボックス、警告、メリット/デメリット、改ページなど
-- **Agent Skills対応**: AIコーディングアシスタント（Claude Code、VS Code Copilot）に対応
+- **Agent Skills対応**: AIコーディングアシスタント（Claude Code、[Web Claude](https://github.com/gorosun/gospelo-md2pdf/releases/tag/v1.2.1)、VS Code Copilot）に対応
 
 ## インストール
 

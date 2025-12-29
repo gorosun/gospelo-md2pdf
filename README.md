@@ -163,6 +163,8 @@ Supported diagram types:
 - ER diagrams (`erDiagram`)
 - And all other Mermaid diagram types
 
+Note: Tall diagrams are automatically scaled to fit within a single page (max-height: 700px) while preserving aspect ratio.
+
 ## Special HTML Classes
 
 Use these HTML classes in your Markdown for special styling:

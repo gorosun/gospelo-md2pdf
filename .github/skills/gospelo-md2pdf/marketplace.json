@@ -1,0 +1,32 @@
+{
+  "name": "gospelo-md2pdf",
+  "description": "Convert Markdown to PDF with Japanese support and MermaidJS diagrams",
+  "author": "gorosun",
+  "version": "1.2.1",
+  "license": "MIT",
+  "repository": "https://github.com/gorosun/gospelo-md2pdf",
+  "homepage": "https://github.com/gorosun/gospelo-md2pdf",
+  "keywords": [
+    "markdown",
+    "pdf",
+    "mermaid",
+    "japanese",
+    "documentation",
+    "converter",
+    "weasyprint",
+    "kroki"
+  ],
+  "categories": [
+    "documentation",
+    "converter",
+    "productivity"
+  ],
+  "compatibility": [
+    "claude-code",
+    "claude-web"
+  ],
+  "requirements": {
+    "python": ">=3.10",
+    "network": ["kroki.io"]
+  }
+}

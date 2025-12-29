@@ -10,9 +10,10 @@ Agent Skillsは、Anthropicが提唱したオープンスタンダードで、AI
 
 | プラットフォーム | スキルの場所 | 対応状況 |
 |----------------|------------|---------|
-| Claude Code | `.claude/skills/gospelo-md2pdf/` | 対応済み |
-| VS Code Copilot (Insiders) | `.github/skills/gospelo-md2pdf/` | 対応済み |
-| VS Code Copilot (Stable) | `.claude/skills/gospelo-md2pdf/` | 対応予定（2026年1月〜） |
+| Claude Code | `.github/skills/gospelo-md2pdf/` | 対応済み |
+| VS Code Copilot | `.github/skills/gospelo-md2pdf/` | 対応済み |
+
+注: `.github/skills/` が Agent Skills の標準配置場所です。Claude Code と VS Code Copilot の両方がこの場所をサポートしています。
 
 ## クイックスタート
 
@@ -27,10 +28,6 @@ pip install gospelo-md2pdf
 スキルフォルダをプロジェクトにコピーします：
 
 ```bash
-# Claude Code用
-cp -r path/to/gospelo-md2pdf/.claude/skills/gospelo-md2pdf .claude/skills/
-
-# VS Code Copilot (Insiders)用
 cp -r path/to/gospelo-md2pdf/.github/skills/gospelo-md2pdf .github/skills/
 ```
 
@@ -52,8 +49,7 @@ AIアシスタントが自動的にスキルを検出し、gospelo-md2pdfを使�
 
 ### 配置場所
 
-- **Claude Code**: `.claude/skills/gospelo-md2pdf/SKILL.md`
-- **VS Code Copilot**: `.github/skills/gospelo-md2pdf/SKILL.md`
+`.github/skills/gospelo-md2pdf/SKILL.md`
 
 ### 内容
 
@@ -69,7 +65,7 @@ allowed-tools: Read, Bash(gospelo-md2pdf:*)
 ...
 ```
 
-完全なスキルファイルは [.claude/skills/gospelo-md2pdf/SKILL.md](https://github.com/gorosun/gospelo-md2pdf/blob/main/.claude/skills/gospelo-md2pdf/SKILL.md) を参照してください。
+完全なスキルファイルは [.github/skills/gospelo-md2pdf/SKILL.md](https://github.com/gorosun/gospelo-md2pdf/blob/main/.github/skills/gospelo-md2pdf/SKILL.md) を参照してください。
 
 ## パーソナルスキル（グローバル）
 
@@ -101,6 +97,9 @@ export DYLD_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_LIBRARY_PATH
 
 ## 関連リンク
 
+- [Agent Skills Overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - 公式Claudeプラットフォームドキュメント
+- [Introducing Agent Skills](https://www.anthropic.com/news/skills) - Anthropic公式発表
+- [anthropics/skills リポジトリ](https://github.com/anthropics/skills) - 公式スキルリポジトリ（`.github/skills/`標準を採用）
 - [Agent Skills 仕様](https://agentskills.io/specification)
 - [Claude Code Skills ドキュメント](https://docs.anthropic.com/en/docs/claude-code/skills)
 - [gospelo-md2pdf GitHub](https://github.com/gorosun/gospelo-md2pdf)

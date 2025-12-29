@@ -5,7 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.2] - 2025-12-29
+## [1.2.1] - 2025-12-30
+
+### Changed
+
+- Standardized skill location to `.github/skills/` (removed `.claude/skills/`)
+- Updated SKILL.md: replaced deprecated `--no-html` option with `--debug`
+- Added `marketplace.json` for SkillsMP integration
+
+### Added
+
+- Official documentation links in AGENT_SKILLS.md and AGENT_SKILLS_jp.md
+  - Agent Skills Overview (platform.claude.com)
+  - Introducing Agent Skills (anthropic.com/news)
+  - anthropics/skills Repository
+
+## [1.2.0] - 2025-12-29
+
+### Changed
+
+- **Breaking**: Switched Mermaid rendering from mermaid-cli to Kroki API
+  - No longer requires `npm install -g @mermaid-js/mermaid-cli`
+  - Uses [Kroki.io](https://kroki.io) free service for rendering
+  - For Web Claude: Add `kroki.io` to allowed domains in Settings → Capabilities
+  - POST method used to avoid URL length limitations
 
 ### Added
 
@@ -13,6 +36,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `max-height: 700px` (~85% of A4 page height)
   - `object-fit: contain` preserves aspect ratio
   - `page-break-inside: avoid` prevents diagram splitting
+
+### Removed
+
+- Dependency on mermaid-cli (npm package)
 
 ## [1.1.1] - 2025-12-26
 

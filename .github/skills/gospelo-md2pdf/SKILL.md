@@ -42,8 +42,8 @@ gospelo-md2pdf input.md output.pdf
 # 出力ディレクトリを指定
 gospelo-md2pdf input.md -o ./pdf
 
-# 中間HTMLファイルを削除
-gospelo-md2pdf input.md --no-html
+# デバッグ用に中間ファイルを保持
+gospelo-md2pdf input.md --debug
 
 # カスタムCSSを使用
 gospelo-md2pdf input.md --css custom.css
@@ -55,7 +55,7 @@ gospelo-md2pdf input.md --css custom.css
 |--------|-------------|
 | `-o, --output-dir DIR` | Output directory |
 | `-c, --css FILE` | Custom CSS file |
-| `--no-html` | Delete intermediate HTML file |
+| `--debug` | Keep intermediate files (HTML, mermaid) in tmp/ |
 | `--lang LANG` | HTML lang attribute (default: ja) |
 | `-q, --quiet` | Suppress output messages |
 | `--verbose` | Print verbose output |

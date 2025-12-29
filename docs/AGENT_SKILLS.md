@@ -10,9 +10,10 @@ Agent Skills is an open standard introduced by Anthropic that allows AI agents t
 
 | Platform | Skill Location | Status |
 |----------|---------------|--------|
-| Claude Code | `.claude/skills/gospelo-md2pdf/` | Supported |
-| VS Code Copilot (Insiders) | `.github/skills/gospelo-md2pdf/` | Supported |
-| VS Code Copilot (Stable) | `.claude/skills/gospelo-md2pdf/` | Supported (Jan 2026+) |
+| Claude Code | `.github/skills/gospelo-md2pdf/` | Supported |
+| VS Code Copilot | `.github/skills/gospelo-md2pdf/` | Supported |
+
+Note: `.github/skills/` is the standard location for Agent Skills. Both Claude Code and VS Code Copilot support this location.
 
 ## Quick Start
 
@@ -27,10 +28,6 @@ pip install gospelo-md2pdf
 Copy the skill folder to your project:
 
 ```bash
-# For Claude Code
-cp -r path/to/gospelo-md2pdf/.claude/skills/gospelo-md2pdf .claude/skills/
-
-# For VS Code Copilot (Insiders)
 cp -r path/to/gospelo-md2pdf/.github/skills/gospelo-md2pdf .github/skills/
 ```
 
@@ -52,8 +49,7 @@ The AI assistant will automatically detect the skill and use gospelo-md2pdf.
 
 ### Location
 
-- **Claude Code**: `.claude/skills/gospelo-md2pdf/SKILL.md`
-- **VS Code Copilot**: `.github/skills/gospelo-md2pdf/SKILL.md`
+`.github/skills/gospelo-md2pdf/SKILL.md`
 
 ### Content
 
@@ -69,17 +65,18 @@ allowed-tools: Read, Bash(gospelo-md2pdf:*)
 ...
 ```
 
-See the full skill file at [.claude/skills/gospelo-md2pdf/SKILL.md](https://github.com/gorosun/gospelo-md2pdf/blob/main/.claude/skills/gospelo-md2pdf/SKILL.md).
+See the full skill file at [.github/skills/gospelo-md2pdf/SKILL.md](https://github.com/gorosun/gospelo-md2pdf/blob/main/.github/skills/gospelo-md2pdf/SKILL.md).
 
 ## Personal Skills (Global)
 
 To use the skill across all projects, install it to your personal skills directory:
 
 ```bash
-# Claude Code
 mkdir -p ~/.claude/skills/gospelo-md2pdf
-cp .claude/skills/gospelo-md2pdf/SKILL.md ~/.claude/skills/gospelo-md2pdf/
+cp .github/skills/gospelo-md2pdf/SKILL.md ~/.claude/skills/gospelo-md2pdf/
 ```
+
+Note: Personal skills are stored in `~/.claude/skills/` for Claude Code.
 
 ## Troubleshooting
 
@@ -101,6 +98,9 @@ Add to `~/.zshrc` for persistence.
 
 ## Related Links
 
+- [Agent Skills Overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - Official Claude platform documentation
+- [Introducing Agent Skills](https://www.anthropic.com/news/skills) - Anthropic announcement
+- [anthropics/skills Repository](https://github.com/anthropics/skills) - Official skills repository (uses `.github/skills/` standard)
 - [Agent Skills Specification](https://agentskills.io/specification)
 - [Claude Code Skills Documentation](https://docs.anthropic.com/en/docs/claude-code/skills)
 - [gospelo-md2pdf GitHub](https://github.com/gorosun/gospelo-md2pdf)

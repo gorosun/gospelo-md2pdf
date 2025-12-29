@@ -114,4 +114,9 @@ internal/
 # Temporary files
 tmp/
 docs/development/
-.claude/skills/update-log
+
+# Claude Code local settings (not tracked)
+.claude/
+
+# External repositories (forked for PR)
+/skills/

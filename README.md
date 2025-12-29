@@ -5,7 +5,7 @@ Convert Markdown to PDF with Japanese support and MermaidJS diagrams.
 ## Features
 
 - **Japanese Text Support**: Full support for Japanese fonts (Noto Sans CJK JP, Hiragino Sans, Yu Gothic)
-- **MermaidJS Diagrams**: Automatically renders Mermaid diagrams as PNG images
+- **MermaidJS Diagrams**: Automatically renders Mermaid diagrams as PNG images via [Kroki API](https://kroki.io)
 - **Custom CSS**: Use your own stylesheets or the built-in professional style
 - **Markdown Extensions**: Tables, fenced code blocks, TOC, metadata, and more
 - **Special HTML Classes**: Summary boxes, warnings, pros/cons sections, page breaks
@@ -45,13 +45,14 @@ brew install font-noto-sans-cjk-jp
 sudo apt install fonts-noto-cjk
 ```
 
-### MermaidJS Support (Optional)
+### MermaidJS Support
 
-To render Mermaid diagrams:
+Mermaid diagrams are rendered using the [Kroki API](https://kroki.io) (no local installation required). Supported Mermaid version depends on Kroki's implementation (currently Mermaid v11.x).
 
-```bash
-npm install -g @mermaid-js/mermaid-cli
-```
+**For Web Claude**: Add `kroki.io` to allowed domains:
+1. Settings (gear icon) → Capabilities
+2. Find "Additional allowed domains"
+3. Add `kroki.io`
 
 ## Quick Start
 
@@ -266,17 +267,9 @@ source ~/.zshrc
 
 ### Mermaid diagrams not rendering
 
-Verify mermaid-cli is installed:
-
-```bash
-mmdc --version
-```
-
-If not installed:
-
-```bash
-npm install -g @mermaid-js/mermaid-cli
-```
+1. Verify network connectivity to `kroki.io`
+2. For Web Claude: Add `kroki.io` to allowed domains (Settings → Capabilities → Additional allowed domains)
+3. Check error messages for "Cannot connect to Kroki"
 
 ## Requirements
 
@@ -284,7 +277,7 @@ npm install -g @mermaid-js/mermaid-cli
 - weasyprint >= 60.0
 - markdown >= 3.5.0
 - System: pango, glib, gdk-pixbuf (see Installation)
-- Optional: @mermaid-js/mermaid-cli (for Mermaid diagrams)
+- Network: Access to kroki.io (for Mermaid diagrams)
 
 ## Dependencies and Acknowledgements
 
@@ -294,7 +287,7 @@ This project uses the following open-source libraries. Full license texts are in
 |---------|---------|-------------|
 | [WeasyPrint](https://weasyprint.org/) | BSD 3-Clause | HTML/CSS to PDF converter |
 | [Python-Markdown](https://python-markdown.github.io/) | BSD 3-Clause | Markdown to HTML converter |
-| [Mermaid CLI](https://github.com/mermaid-js/mermaid-cli) | MIT | Diagram rendering (optional) |
+| [Kroki](https://kroki.io) | MIT | Diagram rendering API |
 
 ### System Libraries (Dynamically Linked)
 

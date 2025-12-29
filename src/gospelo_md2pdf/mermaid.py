@@ -1,61 +1,89 @@
-"""Mermaid diagram processing using mermaid-cli."""
+"""Mermaid diagram processing using Kroki API."""
 
+import base64
 import hashlib
-import os
 import re
-import shutil
-import subprocess
 import sys
-import tempfile
+import urllib.error
+import urllib.request
+import zlib
 from pathlib import Path
 
+# Kroki API endpoint
+KROKI_URL = "https://kroki.io/mermaid/png"
 
-def check_mermaid_cli() -> bool:
+
+def _encode_mermaid_for_kroki(mermaid_code: str) -> str:
     """
-    Check if mermaid-cli (mmdc) is available.
+    Encode Mermaid code for Kroki API using deflate + base64.
+
+    Args:
+        mermaid_code: Mermaid diagram code
 
     Returns:
-        True if mmdc is available, False otherwise
+        URL-safe base64 encoded string
     """
-    return shutil.which("mmdc") is not None
+    # Normalize: strip leading/trailing whitespace
+    normalized = mermaid_code.strip()
+
+    # Compress with zlib (deflate)
+    compressed = zlib.compress(normalized.encode("utf-8"), level=9)
+
+    # Base64 encode (URL-safe)
+    encoded = base64.urlsafe_b64encode(compressed).decode("ascii")
+    return encoded
 
 
 def render_mermaid_to_png(mermaid_code: str, output_path: Path, scale: int = 2) -> bool:
     """
-    Render Mermaid code to PNG using mermaid-cli.
+    Render Mermaid code to PNG using Kroki API.
 
-    PNG format is more reliable for PDF embedding than SVG with foreignObject,
-    which is not fully supported by WeasyPrint.
+    Uses POST method to avoid URL length limitations.
 
     Args:
         mermaid_code: Mermaid diagram code
         output_path: Path to save the PNG file
-        scale: Scale factor for output quality (default: 2)
+        scale: Scale factor for output quality (not supported by Kroki, ignored)
 
     Returns:
         True if successful, False otherwise
     """
     try:
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".mmd", delete=False, encoding="utf-8"
-        ) as f:
-            f.write(mermaid_code)
-            temp_input = f.name
+        # Normalize code
+        normalized = mermaid_code.strip()
 
-        # Use PNG output with higher scale for quality
-        result = subprocess.run(
-            ["mmdc", "-i", temp_input, "-o", str(output_path), "-b", "white", "-s", str(scale)],
-            capture_output=True,
-            text=True,
+        # Use POST method to avoid URL length limitations
+        request = urllib.request.Request(
+            KROKI_URL,
+            data=normalized.encode("utf-8"),
+            headers={
+                "User-Agent": "gospelo-md2pdf/1.0",
+                "Content-Type": "text/plain",
+            },
+            method="POST",
         )
 
-        os.unlink(temp_input)
+        # Fetch PNG from Kroki
+        with urllib.request.urlopen(request, timeout=30) as response:
+            png_data = response.read()
 
-        if result.returncode != 0:
-            print(f"Warning: Mermaid rendering failed: {result.stderr}", file=sys.stderr)
-            return False
-
+        # Save PNG file
+        output_path.write_bytes(png_data)
         return True
+
+    except urllib.error.HTTPError as e:
+        print(f"Warning: Kroki API error (HTTP {e.code}): {e.reason}", file=sys.stderr)
+        return False
+    except urllib.error.URLError as e:
+        print(
+            f"Warning: Cannot connect to Kroki: {e.reason}",
+            file=sys.stderr,
+        )
+        print(
+            "  For Web Claude: Settings → Capabilities → Additional allowed domains → Add 'kroki.io'",
+            file=sys.stderr,
+        )
+        return False
     except Exception as e:
         print(f"Warning: Mermaid rendering error: {e}", file=sys.stderr)
         return False
@@ -67,8 +95,8 @@ def process_mermaid_blocks(
     """
     Find and process Mermaid code blocks in HTML, replacing them with PNG images.
 
-    PNG format is used instead of SVG because SVG foreignObject (used by Mermaid flowcharts)
-    is not fully supported by WeasyPrint.
+    Uses Kroki API for rendering. PNG format is used instead of SVG because
+    SVG foreignObject (used by Mermaid flowcharts) is not fully supported by WeasyPrint.
 
     Args:
         html_content: HTML content with Mermaid code blocks
@@ -79,14 +107,6 @@ def process_mermaid_blocks(
     Returns:
         HTML content with Mermaid blocks replaced by img tags
     """
-    if not check_mermaid_cli():
-        print(
-            "Warning: mermaid-cli (mmdc) not found. Mermaid diagrams will not be rendered.",
-            file=sys.stderr,
-        )
-        print("Install with: npm install -g @mermaid-js/mermaid-cli", file=sys.stderr)
-        return html_content
-
     # Pattern to match Mermaid code blocks in HTML
     # Matches <pre><code class="language-mermaid">...</code></pre> or similar
     mermaid_pattern = re.compile(
@@ -102,14 +122,9 @@ def process_mermaid_blocks(
         nonlocal diagram_count
         mermaid_code = match.group(1)
         # Unescape HTML entities
-        mermaid_code = (
-            mermaid_code.replace("&lt;", "<")
-            .replace("&gt;", ">")
-            .replace("&quot;", '"')
-            .replace("&#39;", "'")
-            .replace("&apos;", "'")
-            .replace("&amp;", "&")  # &amp; must be last to avoid double-unescaping
-        )
+        import html
+
+        mermaid_code = html.unescape(mermaid_code)
 
         # Generate unique filename
         code_hash = hashlib.md5(mermaid_code.encode()).hexdigest()[:8]

@@ -5,7 +5,7 @@
 ## 特徴
 
 - **日本語対応**: Noto Sans CJK JP、ヒラギノ角ゴシック、游ゴシックなどの日本語フォントに対応
-- **MermaidJSダイアグラム**: Mermaidダイアグラムを自動的にPNG画像として埋め込み
+- **MermaidJSダイアグラム**: [Kroki API](https://kroki.io)を使用してMermaidダイアグラムをPNG画像として埋め込み
 - **カスタムCSS**: 独自のスタイルシートまたは内蔵のプロフェッショナルスタイルを使用可能
 - **Markdown拡張**: テーブル、コードブロック、目次、メタデータなどに対応
 - **特殊HTMLクラス**: サマリーボックス、警告、メリット/デメリット、改ページなど
@@ -45,13 +45,14 @@ brew install font-noto-sans-cjk-jp
 sudo apt install fonts-noto-cjk
 ```
 
-### MermaidJSサポート（オプション）
+### MermaidJSサポート
 
-Mermaidダイアグラムをレンダリングするには：
+Mermaidダイアグラムは[Kroki API](https://kroki.io)を使用してレンダリングされます（ローカルインストール不要）。対応するMermaidバージョンはKrokiの実装に準拠します（現在Mermaid v11.x）。
 
-```bash
-npm install -g @mermaid-js/mermaid-cli
-```
+**Web版Claude向け**: `kroki.io`を許可ドメインに追加してください：
+1. Settings（歯車アイコン）→ Capabilities
+2. 「Additional allowed domains」を見つける
+3. `kroki.io`を追加
 
 ## クイックスタート
 
@@ -264,17 +265,9 @@ source ~/.zshrc
 
 ### Mermaidダイアグラムがレンダリングされない
 
-mermaid-cliがインストールされているか確認：
-
-```bash
-mmdc --version
-```
-
-インストールされていない場合：
-
-```bash
-npm install -g @mermaid-js/mermaid-cli
-```
+1. `kroki.io`へのネットワーク接続を確認
+2. Web版Claude: `kroki.io`を許可ドメインに追加（Settings → Capabilities → Additional allowed domains）
+3. エラーメッセージに「Cannot connect to Kroki」が含まれていないか確認
 
 ## 必要要件
 
@@ -282,7 +275,7 @@ npm install -g @mermaid-js/mermaid-cli
 - weasyprint >= 60.0
 - markdown >= 3.5.0
 - システム: pango, glib, gdk-pixbuf（インストールセクション参照）
-- オプション: @mermaid-js/mermaid-cli（Mermaidダイアグラム用）
+- ネットワーク: kroki.ioへのアクセス（Mermaidダイアグラム用）
 
 ## ライセンス
 

@@ -121,7 +121,9 @@ def process_mermaid_blocks(
             if verbose:
                 print(f"  Rendered Mermaid diagram: {png_filename}")
             # Return img tag with absolute path for WeasyPrint
-            return f'<div class="mermaid-diagram"><img src="file://{png_path.absolute()}" alt="Mermaid Diagram" style="max-width: 100%; height: auto;"/></div>'
+            # max-height: 85vh ensures tall diagrams fit within a page
+            # object-fit: contain preserves aspect ratio while fitting
+            return f'<div class="mermaid-diagram"><img src="file://{png_path.absolute()}" alt="Mermaid Diagram"/></div>'
         else:
             # If rendering fails, keep the code block
             return match.group(0)

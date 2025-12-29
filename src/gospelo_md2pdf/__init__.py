@@ -7,7 +7,7 @@ This software uses WeasyPrint (BSD 3-Clause) and Python-Markdown (BSD 3-Clause).
 See LICENSE file for third-party license information.
 """
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 
 from .converter import convert_md_to_pdf, convert_md_to_html, convert_html_to_pdf
 

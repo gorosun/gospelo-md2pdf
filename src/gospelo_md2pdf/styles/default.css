@@ -321,9 +321,13 @@ figcaption {
     background-color: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
+    page-break-inside: avoid;
 }
 
 .mermaid-diagram img {
     max-width: 100%;
+    max-height: 700px;  /* ~85% of A4 page height (297mm - 40mm margins) */
+    width: auto;
     height: auto;
+    object-fit: contain;
 }

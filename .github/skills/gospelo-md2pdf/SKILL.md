@@ -1,86 +1,103 @@
 ---
 name: gospelo-md2pdf
-description: Convert Markdown files to PDF with Japanese support and MermaidJS diagrams using gospelo-md2pdf. Use when asked to create PDF, generate PDF, export to PDF, or convert markdown to PDF.
-allowed-tools: Read, Bash(gospelo-md2pdf:*)
+description: Convert Markdown files to PDF with Japanese font support and MermaidJS diagram rendering. Use when creating PDFs from markdown, documents with Japanese text, or technical docs with Mermaid diagrams.
+allowed-tools: Read, Bash(gospelo-md2pdf:*), Bash(pip install:*)
 ---
 
-# PDF Generation Skill
+# Markdown to PDF Converter
 
-MarkdownファイルをPDFに変換するスキルです。日本語テキストとMermaidJSダイアグラムをサポートしています。
+Convert Markdown to beautifully formatted PDFs with Japanese text and MermaidJS diagrams.
+
+## Quick Start
+
+```bash
+# 1. Install or upgrade (requires v1.2.0+ for Kroki support)
+pip install --upgrade gospelo-md2pdf
+
+# 2. Convert markdown to PDF
+gospelo-md2pdf input.md
+```
 
 ## When to Use
 
-Activate this skill when the user asks to:
+Activate this skill when asked to:
 - Convert markdown to PDF
-- Generate a PDF document
-- Export a report as PDF
-- Create a PDF with diagrams
+- Generate/export a PDF document
+- Create PDFs with Japanese text
+- Create PDFs with Mermaid diagrams
 
-## Prerequisites (macOS)
+## Installation
 
-If WeasyPrint library errors occur, set the library path:
+### For Claude Web Environment (Ubuntu)
 
 ```bash
-export DYLD_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_LIBRARY_PATH
+# Install gospelo-md2pdf (v1.2.0+ required for Mermaid/Kroki support)
+pip install --upgrade gospelo-md2pdf
+
+# Japanese fonts (if Japanese text doesn't render)
+apt-get update && apt-get install -y fonts-noto-cjk
 ```
 
-## Instructions
-
-1. 変換対象のMarkdownファイルを確認する
-2. ユーザーが出力先を指定した場合は `-o` オプションで出力ディレクトリを指定する
-3. gospelo-md2pdfコマンドを実行する（macOSでライブラリエラーが出る場合は環境変数を設定）
-
-### Basic Usage
+### For macOS
 
 ```bash
-# 基本的な使い方（同じディレクトリにPDFを出力）
+brew install pango glib gdk-pixbuf font-noto-sans-cjk-jp
+pip install --upgrade gospelo-md2pdf
+```
+
+## Mermaid Diagrams Setup
+
+Mermaid diagrams are rendered using the [Kroki API](https://kroki.io) (no local installation required). Supported Mermaid version depends on Kroki (currently v11.x).
+
+**For Claude Web Environment**: Add `kroki.io` to allowed domains:
+1. Settings (gear icon) → Capabilities
+2. Find "Additional allowed domains"
+3. Add `kroki.io`
+
+## Usage
+
+```bash
+# Basic (outputs PDF in same directory)
 gospelo-md2pdf input.md
 
-# 出力ファイル名を指定
+# Specify output directory
+gospelo-md2pdf input.md -o ./output
+
+# Specify output filename
 gospelo-md2pdf input.md output.pdf
-
-# 出力ディレクトリを指定
-gospelo-md2pdf input.md -o ./pdf
-
-# デバッグ用に中間ファイルを保持
-gospelo-md2pdf input.md --debug
-
-# カスタムCSSを使用
-gospelo-md2pdf input.md --css custom.css
 ```
 
 ## Options
 
 | Option | Description |
 |--------|-------------|
-| `-o, --output-dir DIR` | Output directory |
-| `-c, --css FILE` | Custom CSS file |
-| `--debug` | Keep intermediate files (HTML, mermaid) in tmp/ |
-| `--lang LANG` | HTML lang attribute (default: ja) |
-| `-q, --quiet` | Suppress output messages |
-| `--verbose` | Print verbose output |
+| `-o, --output-dir` | Output directory |
+| `-c, --css` | Custom CSS file |
+| `--debug` | Keep intermediate files |
+| `-q, --quiet` | Suppress messages |
 
-## Supported Features
+## Features
 
-- **Japanese Text**: Full support for Japanese fonts
-- **MermaidJS Diagrams**: Flowcharts, sequence diagrams, class diagrams, etc.
+- **Japanese Text**: Noto Sans CJK font support
+- **MermaidJS**: Flowcharts, sequence diagrams, ER diagrams, etc. (via Kroki API)
 - **Tables**: GitHub-flavored markdown tables
-- **Code Blocks**: Syntax highlighted code blocks
-- **Special HTML Classes**: summary, warning, info, pros, cons, disclaimer, page-break
+- **Code Blocks**: Syntax highlighting
+- **Special Classes**: summary, warning, info boxes
 
-## Examples
+## Special HTML Classes
 
-### Convert a simple markdown file
-```bash
-gospelo-md2pdf report.md
+```html
+<div class="summary">Summary box (green)</div>
+<div class="warning">Warning box (orange)</div>
+<div class="info">Info box (blue)</div>
+<div class="page-break"></div>
 ```
 
-### Convert with custom output location
-```bash
-gospelo-md2pdf docs/guide.md -o ./output
-```
+## Troubleshooting
 
-### Convert multiple files
-```bash
-for f in docs/*.md; do gospelo-md2pdf "$f" -o ./pdf; done
-```
+| Problem | Solution |
+|---------|----------|
+| Command not found | `pip install gospelo-md2pdf` |
+| Japanese not rendering | `apt-get install fonts-noto-cjk` |
+| Mermaid not rendering | Add `kroki.io` to allowed domains (Settings → Capabilities) |
+| Kroki connection error | Check network settings and allowed domains |

@@ -113,7 +113,7 @@ internal/
 
 # Temporary files
 tmp/
-docs/development/
+development/
 
 # Claude Code local settings (not tracked)
 .claude/

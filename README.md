@@ -6,6 +6,7 @@ Convert Markdown to PDF with Japanese support and MermaidJS diagrams.
 
 - **Japanese Text Support**: Full support for Japanese fonts (Noto Sans CJK JP, Hiragino Sans, Yu Gothic)
 - **MermaidJS Diagrams**: Automatically renders Mermaid diagrams as PNG images via [Kroki API](https://kroki.io)
+- **Image Embedding**: Automatically embeds local and remote images as Base64 data URIs for portable PDFs
 - **Custom CSS**: Use your own stylesheets or the built-in professional style
 - **Markdown Extensions**: Tables, fenced code blocks, TOC, metadata, and more
 - **Special HTML Classes**: Summary boxes, warnings, pros/cons sections, page breaks
@@ -165,6 +166,22 @@ Supported diagram types:
 - And all other Mermaid diagram types
 
 Note: Tall diagrams are automatically scaled to fit within a single page (max-height: 700px) while preserving aspect ratio.
+
+### Images
+
+Images in Markdown are automatically embedded as Base64 data URIs:
+
+```markdown
+![Local image](./images/photo.png)
+![Remote image](https://example.com/image.png)
+```
+
+Supported sources:
+- **Relative paths**: `./images/photo.png` (resolved from Markdown file location)
+- **Absolute paths**: `/home/user/image.png`
+- **HTTP/HTTPS URLs**: Remote images are fetched and embedded
+
+This ensures PDFs are fully portable with no external dependencies.
 
 ## Special HTML Classes
 

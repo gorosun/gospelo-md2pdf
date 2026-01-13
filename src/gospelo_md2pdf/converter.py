@@ -7,6 +7,7 @@ from pathlib import Path
 import markdown
 from weasyprint import HTML, CSS
 
+from .images import process_image_paths
 from .mermaid import process_mermaid_blocks
 from .styles import get_default_css, load_css_file
 
@@ -107,6 +108,11 @@ def convert_md_to_html(
     if verbose:
         print("Processing Mermaid diagrams...")
     html_body = process_mermaid_blocks(html_body, output_dir, input_path.stem, verbose)
+
+    # Process images - embed as Base64 data URIs
+    if verbose:
+        print("Processing images...")
+    html_body = process_image_paths(html_body, input_path.parent, verbose)
 
     # Prepare CSS content
     if css_file:
